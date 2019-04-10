@@ -1,4 +1,4 @@
-var surveyArray = require("../data/friends");
+var surveyArray = require("../app/data/friends");
 
 module.exports = function (app) {
 
@@ -28,26 +28,32 @@ module.exports = function (app) {
         };
         //create tempObject for housing current winner
         //loop through survayArray Object of previous submissions
-        console.log(surveyArray);
         surveyArray.forEach(function (element, index) {
             var runningSum = 0;
             //set runningSum
             //loop through length of both arrays and compare against one another
-            for (i = 0; i <= 10; i++) {
+            for (i = 0; i < 10; i++) {
                 // add absolute value of that number to a running sum
-                runningSum += Math.abs(newSurvey.scores[i] - element.scores[i]);
+                console.log(newSurvey.scores[i]);
+                console.log(element.scores[i]);
+                runningSum += Math.abs(parseInt(newSurvey.scores[i]) - parseInt(element.scores[i]));
             };
+            console.log(runningSum+" to date runningSum at "+index +" ; "+element);
             //compare agaist current winner tempObject
             //if greater set value of tempObject to runningSum and index to current index
-            if (runningSum > tempObject.runningSum) {
+            if (runningSum < tempObject.runningSum) {
                 tempObject.index = index;
                 tempObject.runningSum = runningSum;
+                console.log("switched tempObject");
+                console.log(tempObject);
             } else {
                 // do nothing
             };
+
         });
-        return tempObject;
-        //return tempObject to Api >> modal?
+        
+        return surveyArray[tempObject.index];
+        //return tempObject converted to surveyArray[index] to Api >> modal?
     };
 };
 // module.exports
